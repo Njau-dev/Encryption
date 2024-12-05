@@ -12,6 +12,8 @@ from sqlalchemy.exc import SQLAlchemyError
 from dotenv import load_dotenv
 from b2sdk.v2 import InMemoryAccountInfo, B2Api, UploadSourceBytes
 from io import BytesIO
+import requests
+import base64
 
 #load environment variables
 load_dotenv()
@@ -51,6 +53,61 @@ def upload_to_b2(b2_api, bucket_name, file_data, file_name):
     
     return file_info, file_url
 
+# Function to authorize the B2 account
+def authorize_account(key_id, application_key):
+    url = "https://api.backblazeb2.com/b2api/v2/b2_authorize_account"
+    response = requests.get(url, auth=(key_id, application_key))
+    
+    if response.status_code == 200:
+        data = response.json()
+
+        # print(data)
+
+        return data['authorizationToken'], data['apiUrl'], data['downloadUrl']
+    
+    else:
+        print(f"Error authorizing account: {response.status_code}, {response.text}")
+        return None, None, None
+
+
+# Function to get download authorization token
+def get_download_authorization(auth_token, api_url, bucket_id, file_name_prefix="", valid_duration=6000):
+    url = f"{api_url}/b2api/v2/b2_get_download_authorization"
+    headers = {
+        "Authorization": f"{auth_token}"
+    }
+    payload = {
+        "bucketId": bucket_id,
+        "fileNamePrefix": file_name_prefix,
+        "validDurationInSeconds": valid_duration
+    }
+    
+    response = requests.post(url, json=payload, headers=headers)
+    
+    if response.status_code == 200:
+        data = response.json()
+        # print(data)
+        return data['authorizationToken']
+    else:
+        print(f"Error getting download authorization: {response.status_code}, {response.text}")
+        return None, None
+
+# Function to download the file
+def download_file(download_url, authorization_token, file_name, local_path):
+    url = f"{download_url}/file/{file_name}"
+    headers = {
+        "Authorization": f"{authorization_token}"
+    }
+    
+    response = requests.get(url, headers=headers, stream=True)
+    
+    if response.status_code == 200:
+        with open(local_path, 'wb') as file:
+            for chunk in response.iter_content(chunk_size=8192):
+                file.write(chunk)
+        print(f"File downloaded successfully: {local_path}")
+    else:
+        print(f"Error downloading file: {response.status_code}, {response.text}")
 
 # Helper function for error responses
 def error_response(message):
@@ -172,48 +229,51 @@ def decrypt():
             cipher = Fernet(record.key.encode())
             decrypted_text = cipher.decrypt(record.encrypted_text.encode()).decode()
 
-        print(f"Using bucket: {os.getenv('B2_BUCKET_NAME')}")
-
         # Step 6: Handle file content
         decrypted_file = None
         if record.encrypted_file:
             try:
-                info = InMemoryAccountInfo()
-                b2_api = B2Api(info)
-                b2_api.authorize_account("production", os.getenv('B2_KEY_ID'), os.getenv('B2_APPLICATION_KEY'))
+                # Authorize the B2 account
+                auth_token, api_url, download_url = authorize_account(
+                    os.getenv('B2_KEY_ID'), os.getenv('B2_APPLICATION_KEY')
+                )
+                
+                if not auth_token or not download_url:
+                    raise Exception("Failed to authorize Backblaze B2 account.")
 
-                bucket_name = os.getenv('B2_BUCKET_NAME')
-                bucket = b2_api.get_bucket_by_name(bucket_name)
+                # Get the download authorization token
+                download_auth_token = get_download_authorization(
+                    auth_token,
+                    api_url,
+                    os.getenv('B2_BUCKET_ID'),
+                    record.encrypted_file,
+                )
+                
+                if not download_auth_token:
+                    raise Exception("Failed to get download authorization token.")
 
-                print(f"Attempting to download file: {record.encrypted_file}")
+                # Construct the full download URL
+                file_url = f"{download_url}/file/{os.getenv('B2_BUCKET_NAME')}/{record.encrypted_file}?Authorization={download_auth_token}"
 
-                file_version = bucket.get_file_info_by_name(record.encrypted_file)
-                file_id = file_version.id_
-
+                # Download the file to an in-memory stream (BytesIO)
                 file_stream = BytesIO()
-
-                # Download the file content to the in-memory stream
                 try:
-                    # bucket.download_file_by_name(record.encrypted_file, file_stream)
-                    bucket.download_file_by_id(file_id, file_stream)
+                    response = requests.get(file_url, headers={"Authorization": f"Bearer {download_auth_token}"}, stream=True)
+                    
+                    if response.status_code == 200:
+                        for chunk in response.iter_content(chunk_size=8192):
+                            file_stream.write(chunk)
+                        file_stream.seek(0)  # Reset stream pointer
+                        print("File downloaded successfully.")
+                    else:
+                        print(f"Error downloading file: {response.status_code}, {response.text}")
+                        raise Exception("Failed to download the file.")
 
-
-                    print("File downloaded successfully.")
                 except Exception as download_error:
                     print(f"Error downloading file: {download_error}")
                     raise
 
-
-                # Ensure the stream is at the beginning after writing
-                file_stream.seek(0, os.SEEK_END)
-
-                print(f"Downloaded file size in stream: {file_stream.tell()} bytes")
-
-
-                if file_stream.tell() == 0:
-                    raise Exception("Downloaded file is empty. Cannot decrypt.")
-
-                # Decrypt the file content
+                # Decrypt the downloaded file
                 try:
                     cipher = Fernet(record.key.encode())
                     decrypted_file = cipher.decrypt(file_stream.read())
@@ -222,32 +282,40 @@ def decrypt():
                     print(f"Error decrypting file: {decryption_error}")
                     raise
 
-
             except Exception as e:
                 return error_response(f"An error occurred while downloading or decrypting the file: {str(e)}")
+
 
 
         # Step 7: Calculate remaining time
         time_remaining = (record.expiry_time - datetime.utcnow()).total_seconds() / 3600
 
         # Step 8: Construct response
-        response = {
-            "decrypted_text": decrypted_text,
-            "expiry_time_status": f"{time_remaining:.2f} hours remaining before expiry."
-        }
+        if decrypted_file and decrypted_text:
+            # Include both text and file in the JSON response
+            response = {
+                "decrypted_text": decrypted_text,
+                "expiry_time_status": f"{time_remaining:.2f} hours remaining before expiry.",
+                "decrypted_file": base64.b64encode(decrypted_file).decode("utf-8"),  # Convert binary to base64 string
+            }
+            return jsonify(response)
 
-        if decrypted_file:
-            # Serve the decrypted file as a downloadable attachment
-            file_stream = BytesIO(decrypted_file)
-            file_stream.seek(0)
-            return send_file(
-                file_stream,
-                as_attachment=True,
-                download_name="decrypted_file",
-                mimetype="application/octet-stream"
-            )
+        elif decrypted_file:
+            # Include only the file and expiry time in the JSON response
+            response = {
+                "expiry_time_status": f"{time_remaining:.2f} hours remaining before expiry.",
+                "decrypted_file": base64.b64encode(decrypted_file).decode("utf-8"),  # Convert binary to base64 string
+            }
+            return jsonify(response)
 
-        return jsonify(response)
+        else:
+            # Include only the text and expiry time in the JSON response
+            response = {
+                "decrypted_text": decrypted_text,
+                "expiry_time_status": f"{time_remaining:.2f} hours remaining before expiry."
+            }
+            return jsonify(response)
+
 
     except Exception as e:
         return error_response(f"An unexpected error occurred: {str(e)}")
