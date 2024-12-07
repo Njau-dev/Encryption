@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  @apply bg-cover bg-center bg-no-repeat min-h-screen flex justify-center items-center ;
+  background-image: url('./assets/encryption-bg.jpg');
+  min-height: 100vh;
+}
+
+/* #root {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */

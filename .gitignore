@@ -1,0 +1,5 @@
+server/venv/
+server/*.pyc
+server/_pycache_/
+server/.vscode
+server/.env

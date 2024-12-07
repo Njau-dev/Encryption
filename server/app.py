@@ -14,11 +14,13 @@ from b2sdk.v2 import InMemoryAccountInfo, B2Api, UploadSourceBytes
 from io import BytesIO
 import requests
 import base64
+from flask_cors import CORS
 
 #load environment variables
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 
 # Load environment variables
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
@@ -109,18 +111,10 @@ def download_file(download_url, authorization_token, file_name, local_path):
     else:
         print(f"Error downloading file: {response.status_code}, {response.text}")
 
+
 # Helper function for error responses
 def error_response(message):
     return jsonify({'error': message}), 400
-
-# Key Generation Route
-@app.route('/generate-key', methods=['GET'])
-def generate_key():
-    try:
-        key = Fernet.generate_key()
-        return jsonify({'key': key.decode()})
-    except Exception as e:
-        return error_response(str(e))
 
 @app.route('/encrypt', methods=['POST'])
 def encrypt():
@@ -319,52 +313,6 @@ def decrypt():
 
     except Exception as e:
         return error_response(f"An unexpected error occurred: {str(e)}")
-
-
-# Anonymize Route
-@app.route('/anonymize', methods=['POST'])
-def anonymize():
-    try:
-        data = request.json.get('data')
-        
-        if not data:
-            return error_response("Missing 'data' in request.")
-        
-        # Convert to DataFrame
-        df = pd.DataFrame(data)
-
-        # Anonymize the 'Email' column using Faker
-        df['Email'] = df['Email'].apply(lambda x: fake.email())
-
-        return jsonify(df.to_dict(orient='records'))
-    except Exception as e:
-        return error_response(str(e))
-
-
-
-# Decrypt File Route
-@app.route('/decrypt-file', methods=['POST'])
-def decrypt_file():
-    try:
-        if 'file' not in request.files or 'key' not in request.form:
-            return error_response("Missing 'file' or 'key' in request.")
-
-        file = request.files['file']
-        key = request.form['key']
-        cipher = Fernet(key.encode())
-        
-        # Read and decrypt file content
-        file_data = file.read()
-        decrypted_data = cipher.decrypt(file_data)
-
-        # Save decrypted file
-        decrypted_file_path = 'decrypted_file.dat'
-        with open(decrypted_file_path, 'wb') as f:
-            f.write(decrypted_data)
-
-        return send_file(decrypted_file_path, as_attachment=True)
-    except Exception as e:
-        return error_response(str(e))
 
 if __name__ == '__main__':
     app.run(debug=True)
