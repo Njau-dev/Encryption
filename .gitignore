@@ -1,5 +1,7 @@
-server/*.pyc
-server/_pycache_
 server/.vscode
-server/venv/*
+server/newenv
 server/.env
+
+.venv
+
+server/__pycache__
