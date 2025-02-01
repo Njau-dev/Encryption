@@ -22,7 +22,7 @@ const Decrypt = () => {
         setResponseData({ decryptedText: null, decryptedFile: null, expiryTimeStatus: null });
 
         try {
-            const response = await axios.post('http://localhost:5000/decrypt', { key, pin });
+            const response = await axios.post('https://encryption-bs0w.onrender.com/decrypt', { key, pin });
             const { decrypted_text, decrypted_file, expiry_time_status } = response.data;
 
             setResponseData({

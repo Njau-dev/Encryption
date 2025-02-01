@@ -48,7 +48,7 @@ const Encrypt = () => {
             formData.append("expiry_time", expiryTime);
 
             // Send POST request
-            const res = await axios.post("http://localhost:5000/encrypt", formData);
+            const res = await axios.post("https://encryption-bs0w.onrender.com/encrypt", formData);
             setResponse(res.data); // Save response data
             console.log(res.data);
 
