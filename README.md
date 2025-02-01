@@ -14,11 +14,18 @@
   <img src="[your-image-url]" width="30%" alt="Encrypt Interface" />
   <img src="[your-image-url]" width="30%" alt="Decrypt Interface" />  
   <img src="[your-image-url]" width="30%" alt="Success Notification" />
-  ![school-system](https://github.com/user-attachments/assets/7a14bf8a-352b-4b15-b599-a0bfa7520090)
-
 </div>
 
+
+![Home](https://github.com/user-attachments/assets/4b6a64d8-497e-4e51-95fa-654d03891032)
+
+![Encrypt](https://github.com/user-attachments/assets/e9fa5905-d65d-4eb4-a3fe-7b77cd91dfa2)
+
+![Decrypt](https://github.com/user-attachments/assets/7caf650d-6d40-43ad-ab73-cce1335eaede)
+
+
 ---
+
 
 ## 🚀 Features  
 - 🔐 **SHA-256 PIN Hashing** + AES-256 Data Encryption  
