@@ -167,10 +167,10 @@ const Encrypt = () => {
 
                 {/* Modal for Response */}
                 {response && (
-                    <div className="modal modal-open rounded-lg">
-                        <div className="modal-box bg-gray-700 w-[60%]">
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <div className="bg-gray-700 rounded-lg shadow-lg p-6 w-96 lg:w-[60%]">
                             <h3 className="font-bold text-lg text-info my-4">Encryption Successful!</h3>
-                            <div className="flex flex-col items-center mb-4">
+                            <div className="flex flex-col items-center mb-4 overflow-hidden rounded">
                                 <p className="py-4 bg-gray-900 p-2 rounded text-gray-50 mb-2">
                                     <strong>Key:</strong> {response.key}{" "}
                                 </p>

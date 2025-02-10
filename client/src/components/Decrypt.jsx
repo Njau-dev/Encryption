@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { CloudArrowDownIcon } from '@heroicons/react/24/outline';
 import Spinner from './Spinner';
 
@@ -35,7 +35,7 @@ const Decrypt = () => {
             toast.success('Decryption successful!');
             setModalOpen(true);
         } catch (error) {
-            toast.error(error.response?.data?.message || 'An error occurred during decryption.');
+            toast.error(error.response?.data?.error || 'An error occurred during decryption.');
         } finally {
             setIsLoading(false);
         }
@@ -153,6 +153,8 @@ const Decrypt = () => {
                     </div>
                 </div>
             )}
+
+            <ToastContainer />
         </div>
     );
 };
