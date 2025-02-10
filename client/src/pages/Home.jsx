@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const Home = () => {
     return (
-        <div className="hero min-h-[75vh] glass rounded-lg w-[95vw] max-w-6xl lg:min-h-[90vh] border border-info shadow-2xl mx-auto relative">
+        <div className="hero min-h-[75vh] glass rounded-lg w-[95vw] max-w-6xl lg:min-h-[90vh] border border-info shadow-2xl mx-auto relative top-10">
             <div className="hero-overlay bg-opacity-0"></div>
             <div className="hero-content text-neutral-content text-center p-4">
                 <div className="w-full h-full flex flex-col gap-8">
