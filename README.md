@@ -12,7 +12,8 @@
 ## 🖼️ Screenshots  
 
 - Home
-![Home](https://github.com/user-attachments/assets/4b6a64d8-497e-4e51-95fa-654d03891032)
+![Home](https://github.com/user-attachments/assets/b3433429-1b77-4180-8519-1f76aa46d005)
+
 - Encrypt
 ![Encrypt](https://github.com/user-attachments/assets/e9fa5905-d65d-4eb4-a3fe-7b77cd91dfa2)
 - Decrypt 
