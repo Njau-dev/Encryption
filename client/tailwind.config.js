@@ -8,7 +8,11 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      transitionProperty: {
+        'scale': 'scale',
+      },
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {

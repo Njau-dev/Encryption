@@ -1,39 +1,34 @@
-import { KeyIcon, LockClosedIcon, LockOpenIcon } from '@heroicons/react/24/outline'
-import React from 'react'
+import { KeyIcon, LockOpenIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
 
 const Home = () => {
     return (
-        <div className="hero min-h-[60vh] glass rounded-lg w-80 md:min-w-96 lg:min-w-[1024px] lg:min-h-[90vh] border border-info shadow-2xl">
+        <div className="hero min-h-[75vh] glass rounded-lg w-[95vw] max-w-6xl lg:min-h-[90vh] border border-info shadow-2xl mx-auto relative">
             <div className="hero-overlay bg-opacity-0"></div>
-            <div className="hero-content text-neutral-content text-center">
-                <div className="w-max h-max flex flex-col gap-10">
-                    <h1 className="mb-5 text-5xl font-bold text-gray-700">Hello there</h1>
+            <div className="hero-content text-neutral-content text-center p-4">
+                <div className="w-full h-full flex flex-col gap-8">
+                    <h1 className="text-5xl font-bold text-gray-200 mb-4">
+                        Secure Vault
+                    </h1>
 
-                    <div className='flex gap-4 items-center'>
-
-                        <Link to='/encrypt'>
-                            <div className="card bg-base-300 glass image-full w-72 hover:shadow-lg border border-info hover:scale-105 transition-all">
-                                <figure>
-                                    <KeyIcon className='size-36 m-8 text-info' />
-                                </figure>
-                                <div className="card-body">
-                                    <h2 className="card-title text-info">Encrypt</h2>
-                                </div>
+                    <div className='flex flex-col md:flex-row gap-6 items-center justify-center w-full'>
+                        <Link to='/encrypt' className="w-full max-w-[95%] sm:max-w-2xl lg:max-w-4xl">
+                            <div className="card glass hover:shadow-md border border-info hover:scale-105 hover:shadow-info transition-all w-full min-h-24 md:min-h-48 flex flex-row md:flex-col lg:flex-row items-center justify-between p-6 md:p-8">
+                                <KeyIcon className='size-16 md:size-20 lg:size-24 text-info flex-shrink-0' />
+                                <h2 className="text-xl md:text-2xl lg:text-2xl font-semibold text-info ml-4 md:ml-0 md:mt-4 lg:mt-0 lg:ml-8">
+                                    Encrypt data
+                                </h2>
                             </div>
                         </Link>
 
-                        <Link to='/decrypt'>
-                            <div className="card bg-base-300 glass image-full w-72 hover:shadow-lg border border-info hover:scale-105 transition-all">
-                                <figure>
-                                    <LockOpenIcon className='size-36 m-8 text-info' />
-                                </figure>
-                                <div className="card-body">
-                                    <h2 className="card-title text-info">Decrypt</h2>
-                                </div>
+                        <Link to='/decrypt' className="w-full max-w-[95%] sm:max-w-2xl lg:max-w-4xl">
+                            <div className="card glass hover:shadow-md border border-info hover:scale-105 hover:shadow-info transition-all w-full min-h-24 md:min-h-48 flex flex-row md:flex-col lg:flex-row items-center justify-between p-6 md:p-8">
+                                <LockOpenIcon className='size-16 md:size-20 lg:size-24 text-info flex-shrink-0' />
+                                <h2 className="text-xl md:text-xl lg:text-2xl font-semibold text-info ml-4 md:ml-0 md:mt-4 lg:mt-0 lg:ml-8">
+                                    Decrypt data
+                                </h2>
                             </div>
                         </Link>
-
                     </div>
                 </div>
             </div>

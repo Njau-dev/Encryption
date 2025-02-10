@@ -4,10 +4,17 @@
 
 
 body {
-  @apply bg-cover bg-center bg-no-repeat min-h-screen flex justify-center items-center ;
-  background-image: url('./assets/encryption-bg.jpg');
+  @apply bg-cover bg-center bg-no-repeat min-h-screen flex justify-center items-center;
+  background-image: url('./assets/dark-background.png');
   min-height: 100vh;
+  overflow-x: hidden;
 }
+
+/* In your global CSS */
+html {
+  scroll-behavior: smooth;
+}
+
 
 /* #root {
   min-height: 100vh;

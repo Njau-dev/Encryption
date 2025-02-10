@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { CloudArrowDownIcon } from '@heroicons/react/24/outline';
+import Spinner from './Spinner';
 
 const Decrypt = () => {
     const [key, setKey] = useState('');
     const [pin, setPin] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [responseData, setResponseData] = useState({
         decryptedText: null,
@@ -18,7 +19,7 @@ const Decrypt = () => {
     const handleDecrypt = async (e) => {
         e.preventDefault();
 
-        setLoading(true);
+        setIsLoading(true);
         setResponseData({ decryptedText: null, decryptedFile: null, expiryTimeStatus: null });
 
         try {
@@ -36,7 +37,7 @@ const Decrypt = () => {
         } catch (error) {
             toast.error(error.response?.data?.message || 'An error occurred during decryption.');
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     };
 
@@ -81,16 +82,16 @@ const Decrypt = () => {
     };
 
     return (
-        <div className="hero min-h-[60vh] glass rounded-lg w-80 md:min-w-96 lg:min-w-[1024px] lg:min-h-[90vh] shadow-2xl border border-info">
+        <div className="hero min-h-[75vh] glass rounded-lg w-[95vw] max-w-6xl lg:min-h-[90vh] border border-info shadow-2xl mx-auto relative">
             <div className="hero-content text-neutral-content text-center flex flex-col items-center lg:min-w-[550px]">
                 <div className="w-full max-w-md mx-auto">
-                    <h1 className="mb-5 text-5xl font-bold text-gray-700">Decrypt</h1>
+                    <h1 className="mb-12 text-5xl font-bold text-gray-50">Decrypt</h1>
                     <form onSubmit={handleDecrypt} className="space-y-4">
                         <div>
                             <input
                                 type="text"
                                 placeholder="Enter Key"
-                                className="input input-bordered glass text-gray-700 w-full"
+                                className="input input-bordered glass text-gray-200 w-full"
                                 value={key}
                                 onChange={(e) => setKey(e.target.value)}
                                 required
@@ -100,7 +101,7 @@ const Decrypt = () => {
                             <input
                                 type="password"
                                 placeholder="Enter PIN"
-                                className="input input-bordered glass text-gray-700 w-full"
+                                className="input input-bordered glass text-gray-200 w-full"
                                 value={pin}
                                 onChange={(e) => setPin(e.target.value)}
                                 required
@@ -108,14 +109,16 @@ const Decrypt = () => {
                         </div>
                         <button
                             type="submit"
-                            className={`btn btn-info w-full ${loading ? 'loading' : ''}`}
-                            disabled={loading}
+                            className={`btn btn-info w-full ${isLoading ? 'loading' : ''}`}
+                            disabled={isLoading}
                         >
-                            {loading ? 'Decrypting...' : 'Decrypt'}
+                            Decrypt
                         </button>
                     </form>
                 </div>
             </div>
+
+            {isLoading && <Spinner />}
 
             {/* Modal */}
             {modalOpen && (

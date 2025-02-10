@@ -3,6 +3,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipboardIcon } from "@heroicons/react/24/outline";
+import Spinner from "./Spinner";
 
 const Encrypt = () => {
 
@@ -50,7 +51,6 @@ const Encrypt = () => {
             // Send POST request
             const res = await axios.post("https://encryption-bs0w.onrender.com/encrypt", formData);
             setResponse(res.data); // Save response data
-            console.log(res.data);
 
             toast.success("Data encrypted successfully!");
             resetForm();
@@ -76,31 +76,30 @@ const Encrypt = () => {
     };
 
     return (
-        <div className="hero min-h-[60vh] glass rounded-lg w-80 md:min-w-96 lg:min-w-[1024px] lg:min-h-[90vh] shadow-2xl border border-info p-5">
+        <div className="hero min-h-[75vh] glass rounded-lg w-[95vw] max-w-6xl lg:min-h-[90vh] border border-info shadow-2xl mx-auto relative">
             <div className="hero-content text-neutral-content text-center flex flex-col items-center lg:min-w-[550px]">
                 <div className="w-full ">
-                    <h1 className="mb-8 text-4xl font-bold text-gray-700">Encrypt Data</h1>
+                    <h1 className="mb-8 text-4xl font-bold text-white">Encrypt Data</h1>
                     <form
                         onSubmit={handleEncrypt}
                         className="space-y-6 text-left">
 
                         {/* File Upload */}
                         <div>
-                            <label htmlFor="file" className="block text-sm font-medium text-gray-700 pb-2">
+                            <label htmlFor="file" className="block text-sm font-medium text-gray-200 pb-2">
                                 File (Optional, max 10MB)
                             </label>
                             <input
                                 type="file"
                                 name="file"
                                 onChange={(e) => setFile(e.target.files[0])}
-                                className="file-input glass file-input-info w-full text-gray-900"
-                            // accept=".txt,.pdf,.docx,.png,.jpg"
+                                className="file-input glass file-input-info w-full text-gray-100"
                             />
                         </div>
 
                         {/* Text Input */}
                         <div>
-                            <label htmlFor="data" className="block font-medium text-gray-700 pb-2">
+                            <label htmlFor="data" className="block font-medium text-gray-200 pb-2">
                                 Text
                             </label>
                             <textarea
@@ -108,7 +107,7 @@ const Encrypt = () => {
                                 name="data"
                                 onChange={(e) => setText(e.target.value)}
                                 value={text}
-                                className="textarea textarea-info textarea-bordered glass text-gray-900 w-full"
+                                className="textarea textarea-info textarea-bordered glass text-gray-100 w-full"
                                 placeholder="Enter text to encrypt"
                                 rows={4}
                             ></textarea>
@@ -116,7 +115,7 @@ const Encrypt = () => {
 
                         {/* PIN Input */}
                         <div>
-                            <label htmlFor="pin" className="block text-sm font-medium text-gray-700 pb-2">
+                            <label htmlFor="pin" className="block text-sm font-medium text-gray-200 pb-2">
                                 PIN <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -125,7 +124,7 @@ const Encrypt = () => {
                                 name="pin"
                                 onChange={(e) => setPin(e.target.value)}
 
-                                className="input input-bordered glass input-info w-full text-gray-900"
+                                className="input input-bordered glass input-info w-full text-gray-100"
                                 placeholder="Enter a secure PIN"
                                 required
                             />
@@ -133,7 +132,7 @@ const Encrypt = () => {
 
                         {/* Expiry Time */}
                         <div>
-                            <label htmlFor="expiry" className="block text-sm font-medium text-gray-700 pb-2">
+                            <label htmlFor="expiry" className="block text-sm font-medium text-gray-200 pb-2">
                                 Expiry Time (Minutes) <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -142,13 +141,13 @@ const Encrypt = () => {
                                 name="expiry"
                                 value={expiryTime}
                                 onChange={(e) => setExpiryTime(e.target.value)}
-                                className="input input-bordered input-info glass w-full text-gray-900"
+                                className="input input-bordered input-info glass w-full text-gray-100"
                                 placeholder="Enter expiry time (30mins - 48hrs)"
                                 min={30}
                                 max={2880}
                                 required
                             />
-                            <p className="text-xs text-gray-500 mt-1">
+                            <p className="text-xs text-gray-200 mt-1">
                                 Must be between 30 minutes and 48 hours (2880 minutes).
                             </p>
                         </div>
@@ -202,6 +201,7 @@ const Encrypt = () => {
                 {/* Toast Notifications */}
                 <ToastContainer />
             </div>
+            {isLoading && <Spinner />}
         </div>
     );
 };
