@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { GrInsecure, GrSecure } from 'react-icons/gr';
 import { RiHome5Line } from 'react-icons/ri';
+import { TopBar } from './TopBar';
 
 const Layout = ({ children }) => {
     const location = useLocation();
@@ -14,6 +15,7 @@ const Layout = ({ children }) => {
 
     return (
         <div className="min-h-screen flex flex-col">
+            <TopBar />
             <motion.div
                 key={location.pathname}
                 initial={{ opacity: 0 }}
@@ -27,7 +29,7 @@ const Layout = ({ children }) => {
 
             {/* Animated Pagination */}
             <div className="fixed bottom-5 left-1/2 -translate-x-1/2">
-                <div className="join backdrop-blur-lg bg-transparent rounded-lg p-2 shadow-lg border border-info">
+                <div className="join backdrop-blur-lg bg-transparent rounded-lg  shadow-lg border border-info">
                     {navLinks.map((link) => (
                         <Link
                             key={link.path}

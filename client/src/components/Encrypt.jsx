@@ -3,7 +3,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipboardIcon } from "@heroicons/react/24/outline";
-import Spinner from "./Spinner";
+import Spinner from "./ui/Spinner";
 
 const Encrypt = () => {
 
@@ -76,7 +76,7 @@ const Encrypt = () => {
     };
 
     return (
-        <div className="hero min-h-[75vh] glass rounded-lg w-[95vw] max-w-6xl lg:min-h-[90vh] border border-info shadow-2xl mx-auto relative top-[5vh]">
+        <div className="hero min-h-[75vh] glass rounded-lg w-[95vw] max-w-6xl lg:min-h-[70vh] border border-info shadow-2xl mx-auto relative top-[5vh]">
             <div className="hero-content text-neutral-content text-center flex flex-col items-center lg:min-w-[550px]">
                 <div className="w-full ">
                     <h1 className="mb-8 text-4xl font-bold text-gray-50">Encrypt</h1>

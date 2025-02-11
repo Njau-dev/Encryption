@@ -21,3 +21,116 @@ h1,
 h2 {
   font-family: "Montaga", serif;
 }
+
+/* animations.css */
+@keyframes rotate3d {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes rotate2d {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotateBorder {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes particle {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+@keyframes pulse-opacity {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse-opacity 1.5s ease-in-out infinite;
+}
+
+.animate-rotate3d {
+  animation: rotate3d 15s linear infinite;
+}
+
+.animate-rotate2d {
+  animation: rotate2d 8s linear infinite;
+}
+
+.animate-rotateBorder {
+  animation: rotateBorder 4s linear infinite;
+}
+
+.animate-particle {
+  animation: particle 2s ease-out infinite;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.rotate-y-60 {
+  transform: rotateY(60deg);
+}
+
+.rotate-y-120 {
+  transform: rotateY(120deg);
+}

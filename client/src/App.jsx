@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Encrypt from "./components/Encrypt";
 import Decrypt from "./components/Decrypt";
-import Layout from "./components/Layout";
+import Layout from "./components/ui/Layout";
 
 const App = () => {
   return (
