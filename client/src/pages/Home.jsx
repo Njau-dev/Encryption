@@ -1,4 +1,4 @@
-import { KeyIcon, LockOpenIcon } from '@heroicons/react/24/outline'
+import { GrInsecure, GrSecure } from 'react-icons/gr'
 import { Link } from 'react-router-dom'
 
 const Home = () => {
@@ -13,8 +13,8 @@ const Home = () => {
 
                     <div className='flex flex-col md:flex-row gap-6 items-center justify-center w-full'>
                         <Link to='/encrypt' className="w-full max-w-[95%] sm:max-w-2xl lg:max-w-4xl">
-                            <div className="card glass hover:shadow-md border border-info hover:scale-105 hover:shadow-info transition-all w-full min-h-24 md:min-h-48 flex flex-row md:flex-col lg:flex-row items-center justify-between p-6 md:p-8">
-                                <KeyIcon className='size-16 md:size-20 lg:size-24 text-info flex-shrink-0' />
+                            <div className="card glass hover:shadow-md border border-info hover:scale-105  transition-all w-full min-h-24 md:min-h-48 flex flex-row md:flex-col lg:flex-row items-center justify-between p-6 md:p-8">
+                                <GrSecure className='size-16 md:size-20 lg:size-24 text-info flex-shrink-0' />
                                 <h2 className="text-xl md:text-2xl lg:text-2xl font-semibold text-info ml-4 md:ml-0 md:mt-4 lg:mt-0 lg:ml-8">
                                     Encrypt data
                                 </h2>
@@ -22,8 +22,8 @@ const Home = () => {
                         </Link>
 
                         <Link to='/decrypt' className="w-full max-w-[95%] sm:max-w-2xl lg:max-w-4xl">
-                            <div className="card glass hover:shadow-md border border-info hover:scale-105 hover:shadow-info transition-all w-full min-h-24 md:min-h-48 flex flex-row md:flex-col lg:flex-row items-center justify-between p-6 md:p-8">
-                                <LockOpenIcon className='size-16 md:size-20 lg:size-24 text-info flex-shrink-0' />
+                            <div className="card glass hover:shadow-md border border-info hover:scale-105  transition-all w-full min-h-24 md:min-h-48 flex flex-row md:flex-col lg:flex-row items-center justify-between p-6 md:p-8">
+                                <GrInsecure className='size-16 md:size-20 lg:size-24 text-info flex-shrink-0' />
                                 <h2 className="text-xl md:text-xl lg:text-2xl font-semibold text-info ml-4 md:ml-0 md:mt-4 lg:mt-0 lg:ml-8">
                                     Decrypt data
                                 </h2>

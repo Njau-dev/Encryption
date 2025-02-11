@@ -1,15 +1,15 @@
-// Layout.tsx
 import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import { LockClosedIcon, LockOpenIcon, KeyIcon } from '@heroicons/react/24/outline';
+import { GrInsecure, GrSecure } from 'react-icons/gr';
+import { RiHome5Line } from 'react-icons/ri';
 
 const Layout = ({ children }) => {
     const location = useLocation();
 
     const navLinks = [
-        { path: '/', label: 'Home', icon: <KeyIcon className="size-5" /> },
-        { path: '/encrypt', label: 'Encrypt', icon: <LockClosedIcon className="size-5" /> },
-        { path: '/decrypt', label: 'Decrypt', icon: <LockOpenIcon className="size-5" /> },
+        { path: '/', label: 'Home', icon: <RiHome5Line className="size-5" /> },
+        { path: '/encrypt', label: 'Encrypt', icon: <GrSecure className="size-5" /> },
+        { path: '/decrypt', label: 'Decrypt', icon: <GrInsecure className="size-5" /> },
     ];
 
     return (
