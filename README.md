@@ -12,13 +12,11 @@
 ## 🖼️ Screenshots  
 
 - Home
-![Home](https://github.com/user-attachments/assets/b3433429-1b77-4180-8519-1f76aa46d005)
-
+![Home](https://github.com/user-attachments/assets/6694cb47-e48e-45b0-80f3-7fcacc6efb10)
 - Encrypt
-![Encrypt](https://github.com/user-attachments/assets/e9fa5905-d65d-4eb4-a3fe-7b77cd91dfa2)
+![Encrypt](https://github.com/user-attachments/assets/7184c48c-cdc7-419c-9b82-c36b4e32f8e5)
 - Decrypt 
-![Decrypt](https://github.com/user-attachments/assets/7caf650d-6d40-43ad-ab73-cce1335eaede)
-
+![Decrypt](https://github.com/user-attachments/assets/89b1feef-7d24-49ef-a162-f41c3f548428)
 
 ---
 
