@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, send_file, json
 from cryptography.fernet import Fernet
-# import pandas as pd
+import pandas as pd
 from faker import Faker
 import os
 from flask_sqlalchemy import SQLAlchemy
