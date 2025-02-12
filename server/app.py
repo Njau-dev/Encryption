@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, send_file, json
 from cryptography.fernet import Fernet
-import pandas as pd
+# import pandas as pd
 from faker import Faker
 import os
 from flask_sqlalchemy import SQLAlchemy
@@ -155,7 +155,7 @@ def encrypt():
 
             # Backblaze upload
             b2_api = initialize_b2()
-            file_name = f"encrypted_{datetime.utcnow().isoformat()}.bin"
+            file_name = f"encrypted_{datetime.utcnow().isoformat()}"
 
             # Upload the file and get its URL
             _, encrypted_file_url = upload_to_b2(b2_api, os.getenv("B2_BUCKET_NAME"), encrypted_file_data, file_name)
